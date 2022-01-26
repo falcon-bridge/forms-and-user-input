@@ -66,9 +66,11 @@ const SimpleInput = () => {
     // setEnteredNameTouched(true);
     // setEnteredEmailTouched(true);
     if (enteredName.trim() === "") {
+      // No need of this condition becoz if any input is invalid, we won't be able to submit the form as the submit button would be disabled
       return;
     }
-    if (enteredEmail.includes("@")) {
+    if (!enteredEmail.includes("@")) {
+      // No need of this condition too for the same reason as above
       return;
     }
     // setEnteredName("");
