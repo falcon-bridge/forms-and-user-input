@@ -7,9 +7,15 @@ const SimpleInput = () => {
   const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+
+  const enteredEmailIsValid = enteredEmail.includes("@");
+  const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
+
   let formIsValid = false;
 
-  if (enteredNameIsValid) {
+  if (enteredNameIsValid && enteredEmailIsValid) {
     formIsValid = true;
   }
 
@@ -24,17 +30,38 @@ const SimpleInput = () => {
     setEnteredNameTouched(true);
   };
 
+  const emailInputChangeHandler = (event) => {
+    if (enteredEmailTouched === false) {
+      setEnteredEmailTouched(true);
+    }
+    setEnteredEmail(event.target.value);
+  };
+
+  const emailInputBlurHandler = () => {
+    setEnteredEmailTouched(true);
+  };
+
   const formSubmissionHandler = (event) => {
     event.preventDefault();
     setEnteredNameTouched(true);
+    setEnteredEmailTouched(true);
     if (enteredName.trim() === "") {
+      return;
+    }
+    if (enteredEmail.includes("@")) {
       return;
     }
     setEnteredName("");
     setEnteredNameTouched(false);
+    setEnteredEmail("");
+    setEnteredEmailTouched(false);
   };
 
   const nameInputClasses = !nameInputIsInvalid
+    ? "form-control"
+    : "form-control invalid";
+
+  const emailInputClasses = !emailInputIsInvalid
     ? "form-control"
     : "form-control invalid";
 
@@ -51,6 +78,19 @@ const SimpleInput = () => {
         />
         {nameInputIsInvalid && (
           <p className="error-text">Name must not be empty</p>
+        )}
+      </div>
+      <div className={emailInputClasses}>
+        <label htmlFor="email">Your E-mail</label>
+        <input
+          type="email"
+          id="email"
+          value={enteredEmail}
+          onChange={emailInputChangeHandler}
+          onBlur={emailInputBlurHandler}
+        />
+        {emailInputIsInvalid && (
+          <p className="error-text">Your email is invalid</p>
         )}
       </div>
       <div className="form-actions">
