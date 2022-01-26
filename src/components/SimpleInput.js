@@ -1,17 +1,37 @@
-import { useEffect, useState } from "react";
+// import { useState } from "react";
+
+import useInput from "../hooks/use-input";
 
 const SimpleInput = () => {
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+  const {
+    value: enteredName,
+    valueIsValid: enteredNameIsValid,
+    hasError: nameInputIsInvalid,
+    valueChangeHandler: nameInputChangeHandler,
+    inputBlurHandler: nameInputBlurHandler,
+    reset: resetNameInput,
+  } = useInput((value) => value.trim() !== "");
 
-  const enteredNameIsValid = enteredName.trim() !== "";
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+  const {
+    value: enteredEmail,
+    valueIsValid: enteredEmailIsValid,
+    hasError: emailInputIsInvalid,
+    valueChangeHandler: emailInputChangeHandler,
+    inputBlurHandler: emailInputBlurHandler,
+    reset: resetEmailInput,
+  } = useInput((value) => value.includes("@"));
 
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+  // const [enteredName, setEnteredName] = useState("");
+  // const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
-  const enteredEmailIsValid = enteredEmail.includes("@");
-  const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
+  // const enteredNameIsValid = enteredName.trim() !== "";
+  // const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+  // const [enteredEmail, setEnteredEmail] = useState("");
+  // const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+
+  // const enteredEmailIsValid = enteredEmail.includes("@");
+  // const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
 
   let formIsValid = false;
 
@@ -19,42 +39,44 @@ const SimpleInput = () => {
     formIsValid = true;
   }
 
-  const nameInputChangeHandler = (event) => {
-    if (enteredNameTouched === false) {
-      setEnteredNameTouched(true);
-    }
-    setEnteredName(event.target.value);
-  };
+  // const nameInputChangeHandler = (event) => {
+  //   if (enteredNameTouched === false) {
+  //     setEnteredNameTouched(true);
+  //   }
+  //   setEnteredName(event.target.value);
+  // };
 
-  const nameInputBlurHandler = () => {
-    setEnteredNameTouched(true);
-  };
+  // const nameInputBlurHandler = () => {
+  //   setEnteredNameTouched(true);
+  // };
 
-  const emailInputChangeHandler = (event) => {
-    if (enteredEmailTouched === false) {
-      setEnteredEmailTouched(true);
-    }
-    setEnteredEmail(event.target.value);
-  };
+  // const emailInputChangeHandler = (event) => {
+  //   if (enteredEmailTouched === false) {
+  //     setEnteredEmailTouched(true);
+  //   }
+  //   setEnteredEmail(event.target.value);
+  // };
 
-  const emailInputBlurHandler = () => {
-    setEnteredEmailTouched(true);
-  };
+  // const emailInputBlurHandler = () => {
+  //   setEnteredEmailTouched(true);
+  // };
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    setEnteredNameTouched(true);
-    setEnteredEmailTouched(true);
+    // setEnteredNameTouched(true);
+    // setEnteredEmailTouched(true);
     if (enteredName.trim() === "") {
       return;
     }
     if (enteredEmail.includes("@")) {
       return;
     }
-    setEnteredName("");
-    setEnteredNameTouched(false);
-    setEnteredEmail("");
-    setEnteredEmailTouched(false);
+    // setEnteredName("");
+    // setEnteredNameTouched(false);
+    resetNameInput();
+    // setEnteredEmail("");
+    // setEnteredEmailTouched(false);
+    resetEmailInput();
   };
 
   const nameInputClasses = !nameInputIsInvalid
